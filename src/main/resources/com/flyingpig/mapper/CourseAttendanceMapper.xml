@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flyingpig.mapper.CourseAttendanceMapper" >
+<!--    选取在课程前20分钟-课程结束-->
+    <select id="getStudentAttendanceNow" resultType="com.flyingpig.dataobject.entity.CourseAttendance">
+        SELECT *
+        FROM course_attendance
+        WHERE DATE_ADD(NOW(), INTERVAL 20 MINUTE)>(SELECT begin_time FROM course_detail WHERE course_detail.id = course_attendance.course_id)
+        AND (SELECT end_time FROM course_detail WHERE course_detail.id = course_attendance.course_id) > NOW()
+        AND student_id=#{studentId}
+    </select>
+    <select id="listStudentAttendanceByCourseIdList" resultType="com.flyingpig.dataobject.dto.ClassAttendance">
+        SELECT student.name AS studentNo,
+        student.no AS studentName,
+        SUM(CASE WHEN course_attendance.status = 0 THEN 1 ELSE 0 END) AS nocheckCount,
+        SUM(CASE WHEN course_attendance.status = 1 THEN 1 ELSE 0 END) AS signedCount,
+        SUM(CASE WHEN course_attendance.status = 2 THEN 1 ELSE 0 END) AS absentCount,
+        SUM(CASE WHEN course_attendance.status = 3 THEN 1 ELSE 0 END) AS leaveCount
+        FROM student
+        JOIN course_attendance ON student.id = course_attendance.student_id
+        WHERE course_attendance.course_id IN (
+        <!-- 使用动态SQL遍历courseDetailList -->
+        <foreach collection="courseDetailList" item="courseDetailItem" separator=",">
+            #{courseDetailItem.id}
+        </foreach>
+        )
+#         使得学生不重复
+        GROUP BY student_id;
+    </select>
+    <!--    连接三张表查询-->
+    <select id="getStudentAttendanceByCourseIdAndStudentNo"
+            resultType="com.flyingpig.dataobject.dto.StudentAttendance">
+        SELECT student.no AS studentNo,
+               student.name AS studentName,
+               course_detail.week AS week,
+               course_detail.weekday AS weekday,
+               course_attendance.status AS status
+        FROM course_attendance
+                 JOIN student ON course_attendance.student_id = student.id
+                 JOIN course_detail ON course_detail.id = course_attendance.course_id
+        WHERE course_detail.course_name = #{courseName}
+          AND student.no = #{studentNo}
+          AND course_detail.semester = #{semester}
+          AND course_detail.course_teacher = #{teaUserid}
+        ORDER BY course_detail.begin_time;
+    </select>
+
+</mapper>
