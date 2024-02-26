@@ -1,19 +1,49 @@
 package com.flyingpig.dataobject.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author author
+ * @since 2024-02-18
+ */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 @TableName("exam")
-public class Exam {
-    Long id;
-    String examName;
+@ApiModel(value="Exam对象", description="")
+public class Exam implements Serializable {
 
-    LocalDateTime time;
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private Long id;
+
+    private String examName;
+
+    private String time;
+
+    private String type;
+
+    private String grade;
+
+    private String subject;
+
+    private Double totalScore;
+
+
+
+
 }

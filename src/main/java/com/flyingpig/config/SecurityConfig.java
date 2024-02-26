@@ -1,6 +1,4 @@
 package com.flyingpig.config;
-//import com.flyingpig.filter.JwtAuthenticationTokenFilter;
-
 import com.flyingpig.filter.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     @Autowired
-    AuthenticationEntryPoint authenticationEntryPoint;
+    private AuthenticationEntryPoint authenticationEntryPoint;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -72,4 +71,3 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 }
-
