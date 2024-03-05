@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author author
- * @since 2024-02-22
+ * @since 2024-03-05
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -27,12 +27,16 @@ public class QuestionGroup implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    private String name;
+    private Long studentId;
 
-    private String type;
+    private Long questionGroupInfoId;
 
-    private Long examId;
+    private Long correctOrder;
+
+    private Long classId;
+
+
 }

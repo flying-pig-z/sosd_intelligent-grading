@@ -2,9 +2,9 @@ package com.flyingpig.controller;
 
 
 import com.flyingpig.common.Result;
+import com.flyingpig.dataobject.dto.ExamTask;
 import com.flyingpig.dataobject.dto.LoginUser;
-import com.flyingpig.dataobject.dto.TeacherQuestionGroup;
-import com.flyingpig.dataobject.entity.Exam;
+import com.flyingpig.dataobject.dto.QuestionGroupTask;
 import com.flyingpig.service.ITeacherTaskService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author author
@@ -34,17 +34,17 @@ public class TeacherTaskController {
 
     @GetMapping("/exam")
     @ApiOperation("教师试卷任务")
-    public Result getExamTaskByTeacherId(@RequestHeader String Authorization){
-        LoginUser loginUser=(LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Exam> exam = teacherTaskService.getTeacherExamTaskById(loginUser.getUser().getId());
+    public Result getExamTaskByTeacherId(@RequestHeader String Authorization) {
+        LoginUser loginUser = (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<ExamTask> exam = teacherTaskService.listExamTaskByTeacherId(loginUser.getUser().getId());
         return Result.success(exam);
     }
 
     @GetMapping("/question_group")
     @ApiOperation("教师题组任务")
-    public Result getTeacherQuestionGroupByTeacherId(@RequestHeader String Authorization){
-        LoginUser loginUser=(LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<TeacherQuestionGroup> questionGroups = teacherTaskService.getTeacherQuestionGroupByTeacherId(loginUser.getUser().getId());
-        return Result.success(questionGroups);
+    public Result listTeacherQuestionGroupByTeacherId(@RequestHeader String Authorization) {
+        LoginUser loginUser = (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<QuestionGroupTask> questionGroupTasks = teacherTaskService.listQuestionGroupTaskByTeacherId(loginUser.getUser().getId());
+        return Result.success(questionGroupTasks);
     }
 }

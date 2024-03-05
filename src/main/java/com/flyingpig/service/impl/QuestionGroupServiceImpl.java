@@ -2,15 +2,15 @@ package com.flyingpig.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.flyingpig.dataobject.dto.TeacherQuestionGroup;
+import com.flyingpig.dataobject.dto.QuestionGroupTask;
 import com.flyingpig.dataobject.dto.TotalAndCorrectedAmount;
-import com.flyingpig.dataobject.entity.Exam;
+import com.flyingpig.dataobject.entity.ExamInfo;
+import com.flyingpig.dataobject.entity.QuestionGroupInfo;
 import com.flyingpig.dataobject.entity.QuestionGroup;
-import com.flyingpig.dataobject.entity.StudentQuestionGroup;
-import com.flyingpig.mapper.ExamMapper;
+import com.flyingpig.mapper.ExamInfoMapper;
+import com.flyingpig.mapper.QuestionGroupInfoMapper;
 import com.flyingpig.mapper.QuestionGroupMapper;
-import com.flyingpig.mapper.StudentQuestionGroupMapper;
-import com.flyingpig.service.IQuestionGroupService;
+import com.flyingpig.service.IQuestionGroupInfoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,24 +27,24 @@ import java.util.List;
  * @since 2024-02-22
  */
 @Service
-public class QuestionGroupServiceImpl implements IQuestionGroupService {
+public class QuestionGroupServiceImpl implements IQuestionGroupInfoService {
 
     @Autowired
-    ExamMapper examMapper;
+    ExamInfoMapper examMapper;
     @Autowired
-    QuestionGroupMapper questionGroupMapper;
+    QuestionGroupInfoMapper questionGroupMapper;
     @Autowired
-    StudentQuestionGroupMapper studentQuestionGroupMapper;
+    QuestionGroupMapper studentQuestionGroupMapper;
 
     @Override
-    public List<TeacherQuestionGroup> getTeacherQuestionGroupByExamId(Long examId) {
-        List<TeacherQuestionGroup> result =new ArrayList<>();
-        Exam exam=examMapper.selectById(examId);
-        LambdaQueryWrapper<QuestionGroup> questionGroupLambdaQueryWrapper=new LambdaQueryWrapper<>();
-        questionGroupLambdaQueryWrapper.eq(QuestionGroup::getExamId,exam.getId());
-        List<QuestionGroup> questionGroups=questionGroupMapper.selectList(questionGroupLambdaQueryWrapper);
-        for(QuestionGroup questionGroup:questionGroups){
-            TeacherQuestionGroup teacherQuestionGroup=new TeacherQuestionGroup();
+    public List<QuestionGroupTask> getTeacherQuestionGroupByExamId(Long examId) {
+        List<QuestionGroupTask> result =new ArrayList<>();
+        ExamInfo exam=examMapper.selectById(examId);
+        LambdaQueryWrapper<QuestionGroupInfo> questionGroupLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        questionGroupLambdaQueryWrapper.eq(QuestionGroupInfo::getExamInfoId,exam.getId());
+        List<QuestionGroupInfo> questionGroups=questionGroupMapper.selectList(questionGroupLambdaQueryWrapper);
+        for(QuestionGroupInfo questionGroup:questionGroups){
+            QuestionGroupTask teacherQuestionGroup=new QuestionGroupTask();
             BeanUtils.copyProperties(questionGroup,teacherQuestionGroup);
             BeanUtils.copyProperties(exam,teacherQuestionGroup);
             result.add(teacherQuestionGroup);
@@ -55,10 +55,10 @@ public class QuestionGroupServiceImpl implements IQuestionGroupService {
     @Override
     public TotalAndCorrectedAmount getTotalAndRemainingAmountById(Long id) {
         TotalAndCorrectedAmount totalAndCorrectedAmount=new TotalAndCorrectedAmount();
-        LambdaQueryWrapper<StudentQuestionGroup> queryWrapper=new LambdaQueryWrapper<>();
-        queryWrapper.eq(StudentQuestionGroup::getQuestionGroupId,id);
+        LambdaQueryWrapper<QuestionGroup> queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.eq(QuestionGroup::getQuestionGroupInfoId,id);
         totalAndCorrectedAmount.setTotalAccount(studentQuestionGroupMapper.selectCount(queryWrapper).longValue());
-        queryWrapper.select(StudentQuestionGroup::getCorrectOrder).orderByDesc(StudentQuestionGroup::getCorrectOrder).last("limit 1");
+        queryWrapper.select(QuestionGroup::getCorrectOrder).orderByDesc(QuestionGroup::getCorrectOrder).last("limit 1");
         totalAndCorrectedAmount.setCorrectAccount(studentQuestionGroupMapper.selectOne(queryWrapper).getCorrectOrder());
         return totalAndCorrectedAmount;
     }

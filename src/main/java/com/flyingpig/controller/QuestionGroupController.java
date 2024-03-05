@@ -1,30 +1,31 @@
 package com.flyingpig.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.flyingpig.common.Result;
-import com.flyingpig.dataobject.dto.TeacherQuestionGroup;
-import com.flyingpig.service.IQuestionGroupService;
+import com.flyingpig.dataobject.entity.QuestionGroup;
+import com.flyingpig.mapper.QuestionGroupMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/question-group")
+
 public class QuestionGroupController {
 
     @Autowired
-    IQuestionGroupService questionGroupService;
+    QuestionGroupMapper studentQuestionGroupMapper;
 
-    @GetMapping
-    public Result getTeacherQuestionGroupByExamId(@RequestHeader String Authorization,@RequestParam Long examId){
-        List<TeacherQuestionGroup> teacherQuestionGroupList=questionGroupService.getTeacherQuestionGroupByExamId(examId);
-        return Result.success();
+    @GetMapping("/uncorrected-id")
+    @ApiOperation("点击阅卷或者阅完一张试卷，获取下一张学生题组的id")
+    public Result getUncorrectedIdByQuestionGroupId(Long questionGroupId){
+        LambdaQueryWrapper<QuestionGroup> queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.eq(QuestionGroup::getQuestionGroupInfoId,questionGroupId).eq(QuestionGroup::getCorrectOrder,0);
+        List<QuestionGroup> studentQuestionGroupList=studentQuestionGroupMapper.selectList(queryWrapper);
+        long uncorrectedId=studentQuestionGroupList.get(0).getId();
+        return Result.success(uncorrectedId);
     }
 
-    @ApiOperation("获取题组总的有多少份试卷和还剩多少份试卷")
-    @GetMapping("/account")
-    public Result getTotalAndRemainingAmountById(@RequestHeader String Authorization,@RequestParam Long id){
-        return Result.success(questionGroupService.getTotalAndRemainingAmountById(id));
-    }
+
+
 }

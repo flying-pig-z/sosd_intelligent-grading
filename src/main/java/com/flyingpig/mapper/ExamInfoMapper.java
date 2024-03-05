@@ -1,6 +1,6 @@
 package com.flyingpig.mapper;
 
-import com.flyingpig.dataobject.entity.Exam;
+import com.flyingpig.dataobject.entity.ExamInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author author
  * @since 2024-02-18
  */
-public interface ExamMapper extends BaseMapper<Exam> {
+public interface ExamInfoMapper extends BaseMapper<ExamInfo> {
 
 }

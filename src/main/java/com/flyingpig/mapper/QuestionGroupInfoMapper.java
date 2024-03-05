@@ -2,7 +2,7 @@ package com.flyingpig.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.flyingpig.dataobject.entity.QuestionGroup;
+import com.flyingpig.dataobject.entity.QuestionGroupInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -11,9 +11,9 @@ import org.apache.ibatis.annotations.Mapper;
  * </p>
  *
  * @author author
- * @since 2024-02-25
+ * @since 2024-02-22
  */
 @Mapper
-public interface QuestionGroupMapper extends BaseMapper<QuestionGroup> {
+public interface QuestionGroupInfoMapper extends BaseMapper<QuestionGroupInfo> {
 
 }

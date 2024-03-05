@@ -16,29 +16,29 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author author
- * @since 2024-02-18
+ * @since 2024-03-05
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("exam_question")
-@ApiModel(value="ExamQuestion对象", description="")
-public class ExamQuestion implements Serializable {
+@TableName("question")
+@ApiModel(value="Question对象", description="")
+public class Question implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    private Long examId;
+    private Long studentId;
 
-    private Double totalScore;
+    private Long questionInfoId;
 
-    private String content;
+    private Double score;
 
-    private String referenceAnswer;
+    private Boolean gradeOrNot;
 
-    private Long type;
+    private Long classId;
 
 
 }

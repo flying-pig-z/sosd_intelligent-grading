@@ -34,15 +34,7 @@ public class StudentExam implements Serializable {
 
     private Long studentId;
 
-    private Long classId;
-
     private String studentExamImage;
-
-    private Double realScore;
-
-    private Long classRank;
-
-    private Long schoolRank;
 
 
 }

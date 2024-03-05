@@ -1,5 +1,9 @@
 package com.flyingpig.service;
 
+import com.flyingpig.dataobject.dto.ExamReport;
+import com.flyingpig.dataobject.dto.Rate;
+import com.flyingpig.dataobject.dto.RankInfo;
+import com.flyingpig.dataobject.dto.SchoolExamScore;
 import com.flyingpig.dataobject.entity.Exam;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -15,5 +19,13 @@ import java.util.List;
  */
 public interface IExamService extends IService<Exam> {
 
-    List<Exam> listExamInfoByKeyword(String time, String type, String subject, String grade);
+    ExamReport getExamReportByExamId(Long examId, Long classId);
+
+    List<RankInfo> getRankByExamIdAndClassId(Long examId, Long classId);
+
+    Rate getSchoolRateByexamId(Long examId);
+
+    Rate getClassRateByExamIdAndClassId(Long examId, Long classId);
+
+    SchoolExamScore getSchoolScoreByExamId(Long examId);
 }

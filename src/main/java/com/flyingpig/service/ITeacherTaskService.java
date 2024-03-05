@@ -1,7 +1,7 @@
 package com.flyingpig.service;
 
-import com.flyingpig.dataobject.dto.TeacherQuestionGroup;
-import com.flyingpig.dataobject.entity.Exam;
+import com.flyingpig.dataobject.dto.ExamTask;
+import com.flyingpig.dataobject.dto.QuestionGroupTask;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.flyingpig.dataobject.entity.TeacherTask;
 
@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface ITeacherTaskService extends IService<TeacherTask> {
 
-    List<Exam> getTeacherExamTaskById(Long id);
+    List<ExamTask> listExamTaskByTeacherId(Long id);
 
-    List<TeacherQuestionGroup> getTeacherQuestionGroupByTeacherId(Long id);
+    List<QuestionGroupTask> listQuestionGroupTaskByTeacherId(Long id);
 }

@@ -33,17 +33,19 @@ public class Exam implements Serializable {
 
     private String examName;
 
-    private String time;
+    private LocalDateTime time;
 
-    private String type;
+    private Long examInfoId;
 
-    private String grade;
+    private Long studentId;
 
-    private String subject;
+    private Long classId;
 
-    private Double totalScore;
+    private String image;
 
+    private Double realScore;
 
+    private Long correctedQuestionGroupNum;
 
 
 }

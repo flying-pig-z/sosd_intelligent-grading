@@ -2,7 +2,6 @@ package com.flyingpig.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.flyingpig.dataobject.dto.TeacherInfo;
-import com.flyingpig.dataobject.entity.ExamQuestion;
 import com.flyingpig.dataobject.entity.Teacher;
 import org.springframework.stereotype.Service;
 
