@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SchoolExamScore {
+public class ExamScore {
     private Double highestScore;
     private Double perScore;
     private Double totalScore;

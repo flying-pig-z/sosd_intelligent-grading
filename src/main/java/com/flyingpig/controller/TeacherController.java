@@ -1,6 +1,7 @@
 package com.flyingpig.controller;
 
 import com.flyingpig.common.Result;
+import com.flyingpig.dataobject.dto.ExamReport;
 import com.flyingpig.dataobject.dto.LoginUser;
 import com.flyingpig.dataobject.dto.TeacherInfo;
 import com.flyingpig.service.ITeacherClassRelationService;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -31,6 +35,14 @@ public class TeacherController {
         LoginUser loginUser=(LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         TeacherInfo teacherInfo=teacherService.getTeacherInfoById(loginUser.getUser().getId());
         return Result.success(teacherInfo);
+    }
+
+    @GetMapping("/exam-report/list")
+    @ApiOperation("教师获取班级报告列表")
+    public Result getExamReportById(@RequestHeader String Authorization) {
+        LoginUser loginUser = (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Set<ExamReport> examReports = teacherService.listExamReportById(loginUser.getUser().getId());
+        return Result.success(examReports);
     }
 
 

@@ -1,7 +1,8 @@
 package com.flyingpig.mapper;
 
-import com.flyingpig.dataobject.entity.Question;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.flyingpig.dataobject.entity.Question;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * <p>
@@ -13,4 +14,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface QuestionMapper extends BaseMapper<Question> {
 
+    @Select("SELECT MAX(score_order) FROM question")
+    Long findCorrectedNum();
 }

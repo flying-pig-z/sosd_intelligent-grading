@@ -1,4 +1,4 @@
-package com.flyingpig.dataobject.entity;
+package com.flyingpig.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -16,29 +16,29 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author author
- * @since 2024-02-18
+ * @since 2024-03-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("exam_question")
-@ApiModel(value="ExamQuestion对象", description="")
-public class ExamQuestion implements Serializable {
+@TableName("user")
+@ApiModel(value="User对象", description="")
+public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
-    private Long examId;
+    private String no;
 
-    private Double totalScore;
+    private String password;
 
-    private String content;
+    private String name;
 
-    private String referenceAnswer;
+    private String schoolName;
 
-    private Long type;
+    private Long userType;
 
 
 }

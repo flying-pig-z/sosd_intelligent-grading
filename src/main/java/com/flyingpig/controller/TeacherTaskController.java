@@ -4,7 +4,7 @@ package com.flyingpig.controller;
 import com.flyingpig.common.Result;
 import com.flyingpig.dataobject.dto.ExamTask;
 import com.flyingpig.dataobject.dto.LoginUser;
-import com.flyingpig.dataobject.dto.QuestionGroupTask;
+import com.flyingpig.dataobject.dto.QuestionTask;
 import com.flyingpig.service.ITeacherTaskService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +40,11 @@ public class TeacherTaskController {
         return Result.success(exam);
     }
 
-    @GetMapping("/question_group")
+    @GetMapping("/question")
     @ApiOperation("教师题组任务")
-    public Result listTeacherQuestionGroupByTeacherId(@RequestHeader String Authorization) {
+    public Result listQuestionTaskByTeacherId(@RequestHeader String Authorization) {
         LoginUser loginUser = (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<QuestionGroupTask> questionGroupTasks = teacherTaskService.listQuestionGroupTaskByTeacherId(loginUser.getUser().getId());
+        List<QuestionTask> questionGroupTasks = teacherTaskService.listQuestionTaskByTeacherId(loginUser.getUser().getId());
         return Result.success(questionGroupTasks);
     }
 }

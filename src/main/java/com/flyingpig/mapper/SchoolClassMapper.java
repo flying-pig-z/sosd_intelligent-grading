@@ -3,7 +3,6 @@ package com.flyingpig.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.flyingpig.dataobject.entity.SchoolClass;
-import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>

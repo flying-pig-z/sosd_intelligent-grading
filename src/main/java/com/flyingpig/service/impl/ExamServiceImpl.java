@@ -1,25 +1,22 @@
 package com.flyingpig.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.flyingpig.dataobject.dto.ExamReport;
-import com.flyingpig.dataobject.dto.Rate;
-import com.flyingpig.dataobject.dto.RankInfo;
-import com.flyingpig.dataobject.dto.SchoolExamScore;
-import com.flyingpig.dataobject.entity.Exam;
-import com.flyingpig.dataobject.entity.User;
-import com.flyingpig.mapper.ExamInfoMapper;
-import com.flyingpig.mapper.ExamMapper;
-import com.flyingpig.mapper.StudentMapper;
-import com.flyingpig.mapper.UserMapper;
-import com.flyingpig.service.IExamService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.flyingpig.dataobject.dto.*;
+import com.flyingpig.dataobject.entity.*;
+import com.flyingpig.dataobject.entity.User;
+import com.flyingpig.mapper.*;
+import com.flyingpig.service.IExamService;
 import com.flyingpig.util.DataAnalysisUtil;
 import com.flyingpig.util.ExamUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -42,6 +39,12 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements IE
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    ExamUtil examUtil;
+
+    @Autowired
+    TeacherClassRelationMapper teacherClassRelationMapper;
+
     public Integer getExamNum(Long examInfoId) {
         return examMapper.selectCount(
                 new LambdaQueryWrapper<Exam>().eq(Exam::getExamInfoId, examInfoId)
@@ -55,10 +58,6 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements IE
     }
 
 
-    @Override
-    public ExamReport getExamReportByExamId(Long examInfoId, Long classId) {
-        return null;
-    }
 
     @Override
     public List<RankInfo> getRankByExamIdAndClassId(Long examInfoId, Long classId) {
@@ -66,13 +65,13 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements IE
         Long classExamNum = Long.parseLong(getClassExamNum(examInfoId, classId).toString());
 
         LambdaQueryWrapper<Exam> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Exam::getExamInfoId, examInfoId).eq(Exam::getClassId, classId).orderByDesc(Exam::getRealScore);
+        queryWrapper.eq(Exam::getExamInfoId, examInfoId).eq(Exam::getClassId, classId).orderByDesc(Exam::getScore);
         List<Exam> studentExams = examMapper.selectList(queryWrapper);
 
         List<RankInfo> rankInfos = new ArrayList<>();
         for (Exam studentExam : studentExams) {
             User user = userMapper.selectById(studentExam.getStudentId());
-            RankInfo rankInfo = new RankInfo(null, classExamNum, null, schoolExamNum, user.getName(), studentExam.getRealScore());
+            RankInfo rankInfo = new RankInfo(null, classExamNum, null, schoolExamNum, user.getName(), studentExam.getScore());
             rankInfos.add(rankInfo);
         }
 
@@ -80,17 +79,17 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements IE
     }
 
     @Override
-    public Rate getSchoolRateByexamId(Long examId) {
+    public Rate getSchoolRateByExamInfoId(Long examId) {
         Double totalScore = examInfoMapper.selectById(examId).getTotalScore();
         Double passScore = totalScore * 0.6;
         Double excellentScore = totalScore * 0.8;
 
         LambdaQueryWrapper<Exam> queryWrapper = new LambdaQueryWrapper<>();
         int examCount = examMapper.selectCount(queryWrapper.eq(Exam::getExamInfoId, examId));
-        int passCount = examMapper.selectCount(queryWrapper.ge(Exam::getRealScore, passScore));
+        int passCount = examMapper.selectCount(queryWrapper.ge(Exam::getScore, passScore));
         int noPassCount = examCount - passCount;
         queryWrapper.clear();
-        int excellentCount = examMapper.selectCount(queryWrapper.eq(Exam::getExamInfoId, examId).ge(Exam::getRealScore, passScore));
+        int excellentCount = examMapper.selectCount(queryWrapper.eq(Exam::getExamInfoId, examId).ge(Exam::getScore, passScore));
         passCount = passCount - excellentCount;
 
         String noPassRate= DataAnalysisUtil.parseToPercentage(noPassCount,examCount);
@@ -101,16 +100,16 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements IE
     }
 
     @Override
-    public Rate getClassRateByExamIdAndClassId(Long examId, Long classId) {
+    public Rate getClassRateByExamInfoIdAndClassId(Long examId, Long classId) {
         Double totalScore = examInfoMapper.selectById(examId).getTotalScore();
         Double passScore = totalScore * 0.6;
         Double excellentScore = totalScore * 0.8;
         LambdaQueryWrapper<Exam> queryWrapper = new LambdaQueryWrapper<>();
         int examCount = examMapper.selectCount(queryWrapper.eq(Exam::getExamInfoId, examId).eq(Exam::getClassId, classId));
-        int passCount = examMapper.selectCount(queryWrapper.ge(Exam::getRealScore, passScore));
+        int passCount = examMapper.selectCount(queryWrapper.ge(Exam::getScore, passScore));
         int noPassCount = examCount - passCount;
         queryWrapper.clear();
-        int excellentCount = examMapper.selectCount(queryWrapper.eq(Exam::getExamInfoId, examId).eq(Exam::getClassId, classId).ge(Exam::getRealScore, passScore));
+        int excellentCount = examMapper.selectCount(queryWrapper.eq(Exam::getExamInfoId, examId).eq(Exam::getClassId, classId).ge(Exam::getScore, passScore));
         passCount = passCount - excellentCount;
 
         String noPassRate= DataAnalysisUtil.parseToPercentage(noPassCount,examCount);
@@ -121,8 +120,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements IE
     }
 
     @Override
-    public SchoolExamScore getSchoolScoreByExamId(Long examId) {
-        ExamUtil examUtil = new ExamUtil();
+    public ExamScore getSchoolScoreByExamInfoId(Long examId) {
         return examUtil.getSchoolExamScoreByExamId(examId);
     }
 

@@ -1,7 +1,7 @@
 package com.flyingpig.service;
 
-import com.flyingpig.dataobject.entity.SchoolClass;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.flyingpig.dataobject.entity.SchoolClass;
 
 /**
  * <p>

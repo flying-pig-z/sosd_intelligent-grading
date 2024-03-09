@@ -1,8 +1,8 @@
 package com.flyingpig.service;
 
 import com.flyingpig.dataobject.dto.QuestionAnalysis;
-import com.flyingpig.dataobject.entity.QuestionInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.flyingpig.dataobject.entity.QuestionInfo;
 
 import java.util.List;
 

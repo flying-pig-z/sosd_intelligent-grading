@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author author
- * @since 2024-02-18
+ * @since 2024-03-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -30,9 +30,7 @@ public class Student implements Serializable {
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
-    private Long userId;
-
-    private Long schoolClassId;
+    private Long classId;
 
 
 }

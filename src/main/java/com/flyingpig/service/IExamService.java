@@ -3,11 +3,12 @@ package com.flyingpig.service;
 import com.flyingpig.dataobject.dto.ExamReport;
 import com.flyingpig.dataobject.dto.Rate;
 import com.flyingpig.dataobject.dto.RankInfo;
-import com.flyingpig.dataobject.dto.SchoolExamScore;
-import com.flyingpig.dataobject.entity.Exam;
+import com.flyingpig.dataobject.dto.ExamScore;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.flyingpig.dataobject.entity.Exam;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -19,13 +20,11 @@ import java.util.List;
  */
 public interface IExamService extends IService<Exam> {
 
-    ExamReport getExamReportByExamId(Long examId, Long classId);
-
     List<RankInfo> getRankByExamIdAndClassId(Long examId, Long classId);
 
-    Rate getSchoolRateByexamId(Long examId);
+    Rate getSchoolRateByExamInfoId(Long examId);
 
-    Rate getClassRateByExamIdAndClassId(Long examId, Long classId);
+    Rate getClassRateByExamInfoIdAndClassId(Long examId, Long classId);
 
-    SchoolExamScore getSchoolScoreByExamId(Long examId);
+    ExamScore getSchoolScoreByExamInfoId(Long examId);
 }

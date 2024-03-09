@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuestionGroupTask {
-    Long id;
-    String name;
-    String grade;
-    String subject;
-    String type;
+public class QuestionCorrectedAndUnCorrectedNum {
+    private Long correctedNum;
+
+    private Long unCorrectedNum;
 }

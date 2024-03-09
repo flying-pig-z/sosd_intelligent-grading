@@ -34,4 +34,11 @@ public class ExamInfoController {
                                          @RequestParam(required = false) String grade) {
         return Result.success(examInfoService.listExamInfoByKeyword(time, type, subject, grade));
     }
+
+    @GetMapping("/{id}/question-task/list")
+    @ApiOperation("获取该试卷的题组任务")
+    public Result listQuestionTaskById(@RequestHeader String Authorization,@PathVariable Long id) {
+        return Result.success(examInfoService.listQuestionTaskById(id));
+    }
+
 }

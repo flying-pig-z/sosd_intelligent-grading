@@ -2,7 +2,6 @@ package com.flyingpig.dataobject.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
@@ -17,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author author
- * @since 2024-02-18
+ * @since 2024-03-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -28,12 +27,8 @@ public class Exam implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-
-    private String examName;
-
-    private LocalDateTime time;
 
     private Long examInfoId;
 
@@ -43,9 +38,7 @@ public class Exam implements Serializable {
 
     private String image;
 
-    private Double realScore;
-
-    private Long correctedQuestionGroupNum;
+    private Double score;
 
 
 }

@@ -1,7 +1,7 @@
 package com.flyingpig.mapper;
 
-import com.flyingpig.dataobject.entity.Exam;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.flyingpig.dataobject.entity.Exam;
 
 /**
  * <p>

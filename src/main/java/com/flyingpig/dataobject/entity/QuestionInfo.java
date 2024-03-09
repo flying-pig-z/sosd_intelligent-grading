@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author author
- * @since 2024-03-05
+ * @since 2024-03-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -32,13 +32,15 @@ public class QuestionInfo implements Serializable {
 
     private String content;
 
-    private String referenceAnswer;
+    private String type;
 
     private Double totalScore;
 
+    private String referenceAnswer;
+
     private Long examInfoId;
 
-    private Long questionGroupInfoId;
+    private Long position;
 
 
 }

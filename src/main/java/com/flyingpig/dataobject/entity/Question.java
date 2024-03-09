@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author author
- * @since 2024-03-05
+ * @since 2024-03-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -30,15 +30,20 @@ public class Question implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    private Long studentId;
-
-    private Long questionInfoId;
-
+    @ApiModelProperty(value = "得分")
     private Double score;
 
-    private Boolean gradeOrNot;
+    @ApiModelProperty(value = "评分顺序")
+    private Long scoreOrder;
 
+    @ApiModelProperty(value = "学生id")
+    private Long studentId;
+
+    @ApiModelProperty(value = "班级id")
     private Long classId;
+
+    @ApiModelProperty(value = "题目信息id")
+    private Long questionInfoId;
 
 
 }
