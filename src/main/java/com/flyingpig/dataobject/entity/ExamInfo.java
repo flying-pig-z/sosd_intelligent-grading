@@ -5,10 +5,14 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.flyingpig.dataobject.vo.CreateExam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -20,6 +24,8 @@ import lombok.experimental.Accessors;
  * @since 2024-03-08
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("exam_info")
@@ -42,10 +48,25 @@ public class ExamInfo implements Serializable {
 
     private Double totalScore;
 
+    private Long studentNum;
+
+    private Long num;
+
     private String approxTime;
 
     private LocalDateTime detailTime;
 
-    private Long num;
+
+
+    public ExamInfo(CreateExam createExam){
+        name=createExam.getName();
+        type=createExam.getType();
+        grade=createExam.getGrade();
+        subject=createExam.getSubject();
+        totalScore=createExam.getTotalScore();
+        approxTime=createExam.getApproxTime();
+        detailTime=createExam.getDetailTime();
+        num=0L;
+    }
 
 }

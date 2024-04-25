@@ -55,9 +55,9 @@ public class TeacherTaskServiceImpl extends ServiceImpl<TeacherTaskMapper, Teach
         List<ExamTask> result = new ArrayList<>();
         for (TeacherTask teacherTask : teacherTaskList) {
             Long examId = teacherTask.getExamInfoId();
-            ExamInfo exam = examInfoMapper.selectById(examId);
+            ExamInfo examInfo = examInfoMapper.selectById(examId);
             ExamTask examTask = new ExamTask();
-            BeanUtils.copyProperties(exam, examTask);
+            BeanUtils.copyProperties(examInfo, examTask);
             result.add(examTask);
         }
         return result;

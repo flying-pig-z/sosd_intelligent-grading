@@ -1,6 +1,7 @@
 package com.flyingpig.controller;
 
 import com.flyingpig.common.Result;
+import com.flyingpig.dataobject.constant.StatusCode;
 import com.flyingpig.dataobject.entity.User;
 import com.flyingpig.dataobject.vo.ChangePasswordVO;
 import com.flyingpig.service.LoginService;
@@ -25,8 +26,7 @@ public class UserController {
             return loginService.login(user);
         } catch (Exception e) {
             System.out.println(e);
-            return Result.error(2,"账号或密码错误，请重新登录");
-
+            return Result.error(StatusCode.PASSWORDERROR,"账号或密码错误，请重新登录");
         }
     }
 
@@ -52,7 +52,7 @@ public class UserController {
             return Result.success("密码更新成功");
         } else {
             // 旧密码不匹配，返回错误提示
-            return Result.error(2,"密码更新失败");
+            return Result.error(StatusCode.PASSWORDERROR,"密码更新失败");
         }
     }
 

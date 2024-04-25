@@ -4,10 +4,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.Objects;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -19,6 +23,8 @@ import lombok.experimental.Accessors;
  * @since 2024-03-08
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("exam")
@@ -27,7 +33,7 @@ public class Exam implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     private Long examInfoId;
@@ -39,6 +45,9 @@ public class Exam implements Serializable {
     private String image;
 
     private Double score;
+
+    private String comment;
+
 
 
 }

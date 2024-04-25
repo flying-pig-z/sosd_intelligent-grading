@@ -59,13 +59,15 @@ public class ExamUtil {
         return new ExamScore(highestScore, perScore, totalScore);
     }
 
-//    public String getCompleteRateByExamId(Long examId) {
-//        LambdaQueryWrapper<Exam> queryWrapper = new LambdaQueryWrapper<>();
-//        queryWrapper.eq(Exam::getExamInfoId, examId);
-//        int total = studentExamMapper.selectCount(queryWrapper);
-//        ExamInfo examInfo = examMapper.selectById(examId);
-//        Long questionGroupNum = examInfo.getQuestionGroupNum();
-//        int complete = studentExamMapper.selectCount(queryWrapper.select(Exam::getCorrectedQuestionGroupNum));
-//        return DataAnalysisUtil.parseToPercentage(complete, total*questionGroupNum);
-//    }
+    public Long getCountByScoreRange(double i, double v) {
+        LambdaQueryWrapper<Exam> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.ge(Exam::getScore, i).lt(Exam::getScore, v);
+        return (long) examMapper.selectCount(queryWrapper);
+    }
+
+    public Long getCountByScoreRange(double i, double v, Long classId) {
+        LambdaQueryWrapper<Exam> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.ge(Exam::getScore, i).lt(Exam::getScore, v).eq(Exam::getClassId, classId);
+        return (long) examMapper.selectCount(queryWrapper);
+    }
 }

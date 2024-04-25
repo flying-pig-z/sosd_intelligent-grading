@@ -1,14 +1,13 @@
 package com.flyingpig.service;
 
-import com.flyingpig.dataobject.dto.ExamReport;
-import com.flyingpig.dataobject.dto.Rate;
-import com.flyingpig.dataobject.dto.RankInfo;
-import com.flyingpig.dataobject.dto.ExamScore;
+import com.flyingpig.dataobject.dto.*;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.flyingpig.dataobject.entity.Exam;
+import com.flyingpig.dataobject.vo.CreateExam;
+import com.flyingpig.dataobject.vo.CreateQuestion;
+import com.flyingpig.dataobject.vo.StudentExamVO;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * <p>
@@ -26,5 +25,22 @@ public interface IExamService extends IService<Exam> {
 
     Rate getClassRateByExamInfoIdAndClassId(Long examId, Long classId);
 
-    ExamScore getSchoolScoreByExamInfoId(Long examId);
+    ExamStatistics getScoreStatisticsByExamInfoIdAndClassId(Long examId, Long classId);
+
+    List<StudentExam> listStudentExamByStudentId(Long studentId);
+    List<ClassRank> getClassRankListById(Long examInfoId, Long classId);
+
+    long createExam(CreateExam createExam);
+
+    List<SubjectStatus> listSubjectStatusByStudentIdAndExamName(Long studentId, String examName);
+
+    void addComment(Long examId,String comment);
+
+    TotalScoreDTO getTotalScore(Long id, String examName);
+
+    List<ScoreDistributionGraph> getScoreDistributionGraph(Long examId, Long classId);
+
+    List<Double> getScoreTrendGraph(Long studentId);
+
+    void addStudentExam(StudentExamVO studentExamVO);
 }
